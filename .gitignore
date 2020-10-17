@@ -1,0 +1,5 @@
+node_modules
+dist
+jwt.key
+yarn.lock
+yarn-error.log

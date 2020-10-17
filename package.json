@@ -1,0 +1,124 @@
+{
+  "name": "eMagnet",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:maximmasterr/eMagnet.git",
+  "author": "max <mrom06@ya.ru>",
+  "license": "MIT",
+  "dependencies": {
+    "@apollo/client": "^3.2.4",
+    "@babel/cli": "^7.12.1",
+    "@babel/plugin-syntax-top-level-await": "^7.12.1",
+    "@graphql-tools/schema": "^6.2.4",
+    "apollo-server-koa": "^2.18.2",
+    "bufferutil": "^4.0.1",
+    "graphql": "14.7.0",
+    "graphql-config": "^3.0.3",
+    "graphql-tools": "^6.2.4",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.0",
+    "koa-static": "^5.0.0",
+    "mongodb": "^3.6.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "speed-measure-webpack-plugin": "^1.3.3",
+    "utf-8-validate": "^5.0.2",
+    "webpack-graphql-loader": "^1.0.2"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/env",
+        {
+          "targets": {
+            "chrome": "80"
+          }
+        }
+      ],
+      "@babel/react"
+    ],
+    "plugins": [
+      "@babel/plugin-syntax-top-level-await"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "7",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "eslint-config-xo-react": "^0.23.0",
+    "eslint-plugin-react": "^7.21.4",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "prettier": "^2.1.2",
+    "webpack": "^5.1.0",
+    "webpack-cli": "3.3.12",
+    "webpack-merge": "^5.2.0",
+    "xo": "^0.33.1"
+  },
+  "scripts": {
+    "build": "webpack  --progress --mode production",
+    "watch": "webpack  --watch --mode development",
+    "format": "prettier src --write",
+    "lint": "xo src"
+  },
+  "xo": {
+    "parser": "@babel/eslint-parser",
+    "extends": [
+      "xo-react"
+    ],
+    "space": true,
+    "semi": false,
+    "prettier": true,
+    "env": [
+      "node",
+      "browser"
+    ],
+    "rules": {
+      "import/no-unassigned-import": 0,
+      "unicorn/filename-case": [
+        "error",
+        {
+          "cases": {
+            "camelCase": true,
+            "pascalCase": true
+          }
+        }
+      ],
+      "react/function-component-definition": [
+        "error",
+        {
+          "namedComponents": "function-declaration"
+        }
+      ],
+      "no-alert": 0,
+      "react/prop-types": 0,
+      "max-lines": [
+        2,
+        128
+      ],
+      "new-cap": [
+        "error",
+        {
+          "capIsNewExceptions": [
+            "ObjectID"
+          ]
+        }
+      ]
+    },
+    "settings": {
+      "import/core-modules": [
+        "crypto",
+        "path"
+      ]
+    }
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "trailingComma": "none"
+  }
+}

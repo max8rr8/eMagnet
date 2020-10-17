@@ -1,0 +1,31 @@
+type User {
+  id: ID
+  nick: String
+  email: String
+  magnets: [UserMagnet]
+}
+
+type MagnetType {
+  image: MagnetImage
+  name: String
+}
+
+type MagnetImage {
+  background: String
+}
+
+type UserMagnet {
+  count: Int
+  type: MagnetType
+}
+
+type Query {
+  users: [User]
+  me: User
+  isLoggedIn: Boolean
+}
+
+type Mutation {
+  login(email: String, password: String): String
+  register(nick: String, email: String, password: String): String
+}

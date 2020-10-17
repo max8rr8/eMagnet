@@ -1,0 +1,4 @@
+{
+  "schema": "src/apollo/server/typedefs.graphql",
+    "documents": "src/**/*.{graphql,js,ts,jsx,tsx}"
+}
