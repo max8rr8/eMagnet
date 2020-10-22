@@ -1,0 +1,1 @@
+DROP DATABASE e_magnet;

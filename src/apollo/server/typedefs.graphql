@@ -1,27 +1,78 @@
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String!
+
+  endCursor: Int!
+}
+
+
 type User {
-  id: ID
+  id: Int
   nick: String
   email: String
-  magnets: [UserMagnet]
+}
+
+type UserEdge {
+  node: User
+  cursor: String
+}
+
+type UserPaginate {
+  edges: [UserEdge]
+  pageInfo: PageInfo!
 }
 
 type MagnetType {
-  image: MagnetImage
+  id: Int
   name: String
+  mainColor: String
+  secondColor: String
+  icon: String
+  created_by: User
 }
 
-type MagnetImage {
-  background: String
+
+type MagnetTypeEdge {
+  node: MagnetType
+  cursor: String
 }
 
-type UserMagnet {
-  count: Int
-  type: MagnetType
+type MagnetTypePaginate {
+  edges: [MagnetTypeEdge]
+  pageInfo: PageInfo!
+}
+
+type Magnet {
+  id: Int
+  user: User
+  magnet_type: MagnetType
+  given_at: String
+}
+
+
+type MagnetEdge {
+  node: Magnet
+  cursor: String
+}
+
+type MagnetPaginate {
+  edges: [MagnetEdge]
+  pageInfo: PageInfo!
 }
 
 type Query {
-  users: [User]
+  users(offset: Int, first: Int): UserPaginate
+  user(id: Int!): User
   me: User
+
+  magnet_types(offset: Int, first: Int): MagnetTypePaginate
+  magnet_type(id: Int) : MagnetType
+
+  magnets(offset: Int, first: Int): MagnetPaginate
+  magnet(id: Int) : Magnet
+
   isLoggedIn: Boolean
 }
 

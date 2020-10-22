@@ -1,21 +1,10 @@
 import { db } from './connection'
 
-export const magnetsCollection = db.collection('magnets')
-
-export function requestMagnets(pipeline) {
-  return magnetsCollection.aggregate(pipeline).toArray()
+export async function magnets(offfset, first) {
+  return db.select('*').from('magnets').offset(offfset).limit(first)
 }
 
-export function requestMagnet(pipeline) {
-  return magnetsCollection.aggregate(pipeline).toArray()[0]
+export async function magnet(id) {
+  // eslint-disable-next-line camelcase
+  return db.select('*').from('magnets').where({ magnet_id: id }).first()
 }
-
-export const serializePublic = () => ({
-  $replaceWith: {
-    id: {
-      $toString: '$_id'
-    },
-    image: '$image',
-    name: '$name'
-  }
-})
