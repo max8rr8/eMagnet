@@ -21,7 +21,3 @@ export function validPassword(password, hash, salt) {
     })
   })
 }
-
-console.log(await hashPassword('testtest1'))
-console.log(await hashPassword('testtest2'))
-console.log(await hashPassword('testtest3'))

@@ -3,3 +3,4 @@ dist
 jwt.key
 yarn.lock
 yarn-error.log
+.next

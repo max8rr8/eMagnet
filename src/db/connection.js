@@ -11,6 +11,3 @@ const config = {
 }
 
 export const db = knex(config)
-
-// eslint-disable-next-line camelcase
-console.log(await db.select('*').from('users').where({ user_id: 1 }))
