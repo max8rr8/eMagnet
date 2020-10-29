@@ -57,12 +57,12 @@ export const Magnet = new GraphQLObjectType({
       }
     },
 
-    createdBy: {
+    author: {
       type: User,
       extensions: {
         joinMonster: {
           sqlJoin: (magnetsTable, usersTable) =>
-            `${magnetsTable}.created_by = ${usersTable}.user_id`
+            `${magnetsTable}.author = ${usersTable}.user_id`
         }
       }
     },

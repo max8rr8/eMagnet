@@ -37,7 +37,7 @@ export const User = new GraphQLObjectType({
       }
     },
 
-    createdMagnets: {
+    authoredMagnets: {
       type: MagnetConnection.connectionType,
       args: forwardConnectionArgs,
       extensions: {
@@ -45,7 +45,7 @@ export const User = new GraphQLObjectType({
           sqlPaginate: true,
           orderBy: 'magnet_id',
           sqlJoin: (magnetsTable, usersTable) =>
-            `${magnetsTable}.user_id = ${usersTable}.created_by`
+            `${magnetsTable}.user_id = ${usersTable}.author`
         }
       }
     },

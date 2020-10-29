@@ -20,7 +20,7 @@ VALUES ('test user 3',
         'fc4bda146f520912cf0cadd32e3ed541'); -- Password testtest3
 
 
-INSERT INTO magnets(name, main_color, second_color, icon, created_by)
+INSERT INTO magnets(name, main_color, second_color, icon, author)
 VALUES ('JS master',
         '#00ff00',
         '#ff0000',
@@ -30,7 +30,7 @@ VALUES ('JS master',
                  WHERE users.email = 'email1@test.com'));
 
 
-INSERT INTO magnets(name, main_color, second_color, icon, created_by)
+INSERT INTO magnets(name, main_color, second_color, icon, author)
 VALUES ('Math master',
         '#0000ff',
         '#ff00ff',
