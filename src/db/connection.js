@@ -2,12 +2,13 @@ import knex from 'knex'
 
 const config = {
   client: 'pg',
-  connection: {
-    host: '127.0.0.1',
-    user: 'postgres',
-    password: 'onlyhope',
-    database: 'e_magnet'
-  }
+  connection: process.env.DB_URL + '/e_magnet'
 }
 
 export const db = knex(config)
+
+db.raw('SELECT 1').catch(() => {
+  console.error(
+    '\u001B[31m!!!! ATTENTION !!!!\u001B[0m\nLook like you forgot to enter DB_URL'
+  )
+})
