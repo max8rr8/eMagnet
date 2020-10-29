@@ -1,10 +1,10 @@
-import { GraphQLInt, GraphQLObjectType } from 'graphql'
-import { MagnetType } from './MagnetType'
+import { GraphQLString, GraphQLInt, GraphQLObjectType } from 'graphql'
 import { User } from './User'
-import { connectionDefinitions } from 'graphql-relay'
+import { UserMagnetConnection } from './UserMagnet'
+import { forwardConnectionArgs, connectionDefinitions } from 'graphql-relay'
 
 export const Magnet = new GraphQLObjectType({
-  name: 'Magnet',
+  name: 'MagnetType',
   extensions: {
     joinMonster: {
       sqlTable: 'magnets',
@@ -21,22 +21,61 @@ export const Magnet = new GraphQLObjectType({
       }
     },
 
-    user: {
-      type: User,
+    name: {
+      type: GraphQLString,
       extensions: {
         joinMonster: {
-          sqlJoin: (magnetsTable, usersTable) =>
-            `${magnetsTable}.user_id = ${usersTable}.user_id`
+          sqlColumn: 'name'
         }
       }
     },
 
-    magnetType: {
-      type: MagnetType,
+    mainColor: {
+      type: GraphQLString,
+      extensions: {
+        joinMonster: {
+          sqlColumn: 'main_color'
+        }
+      }
+    },
+
+    secondColor: {
+      type: GraphQLString,
+      extensions: {
+        joinMonster: {
+          sqlColumn: 'second_color'
+        }
+      }
+    },
+
+    icon: {
+      type: GraphQLString,
+      extensions: {
+        joinMonster: {
+          sqlColumn: 'icon'
+        }
+      }
+    },
+
+    createdBy: {
+      type: User,
       extensions: {
         joinMonster: {
           sqlJoin: (magnetsTable, usersTable) =>
-            `${magnetsTable}.magnet_type_id = ${usersTable}.magnet_type_id`
+            `${magnetsTable}.created_by = ${usersTable}.user_id`
+        }
+      }
+    },
+
+    usersMagnet: {
+      type: UserMagnetConnection.connectionType,
+      args: forwardConnectionArgs,
+      extensions: {
+        joinMonster: {
+          sqlPaginate: true,
+          orderBy: 'magnet_id',
+          sqlJoin: (magnetsTable, userMagnetsTable) =>
+            `${magnetsTable}.magnet_id = ${userMagnetsTable}.magnet_id`
         }
       }
     }

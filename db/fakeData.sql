@@ -20,7 +20,7 @@ VALUES ('test user 3',
         'fc4bda146f520912cf0cadd32e3ed541'); -- Password testtest3
 
 
-INSERT INTO magnet_types(name, main_color, second_color, icon, created_by)
+INSERT INTO magnets(name, main_color, second_color, icon, created_by)
 VALUES ('JS master',
         '#00ff00',
         '#ff0000',
@@ -30,7 +30,7 @@ VALUES ('JS master',
                  WHERE users.email = 'email1@test.com'));
 
 
-INSERT INTO magnet_types(name, main_color, second_color, icon, created_by)
+INSERT INTO magnets(name, main_color, second_color, icon, created_by)
 VALUES ('Math master',
         '#0000ff',
         '#ff00ff',
@@ -40,32 +40,32 @@ VALUES ('Math master',
                  WHERE users.email = 'email3@test.com'));
 
 
-INSERT INTO magnets(user_id, magnet_type_id)
+INSERT INTO users_magnets(user_id, magnet_id)
 VALUES (
                 (SELECT user_id
                  FROM users
                  WHERE users.email = 'email2@test.com'),
-                (SELECT magnet_type_id
-                 FROM magnet_types
+                (SELECT magnet_id
+                 FROM magnets
                  WHERE name = 'Math master'));
 
 
-INSERT INTO magnets(user_id, magnet_type_id)
+INSERT INTO users_magnets(user_id, magnet_id)
 VALUES (
                 (SELECT user_id
                  FROM users
                  WHERE users.email = 'email3@test.com'),
-                (SELECT magnet_type_id
-                 FROM magnet_types
+                (SELECT magnet_id
+                 FROM magnets
                  WHERE name = 'JS master'));
 
 
-INSERT INTO magnets(user_id, magnet_type_id)
+INSERT INTO users_magnets(user_id, magnet_id)
 VALUES (
                 (SELECT user_id
                  FROM users
                  WHERE users.email = 'email2@test.com'),
-                (SELECT magnet_type_id
-                 FROM magnet_types
+                (SELECT magnet_id
+                 FROM magnets
                  WHERE name = 'Math master'));
 

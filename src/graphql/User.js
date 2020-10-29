@@ -1,7 +1,7 @@
 import { GraphQLString, GraphQLInt, GraphQLObjectType } from 'graphql'
-import { MagnetConnection } from './Magnet'
+import { UserMagnetConnection } from './UserMagnet'
 import { forwardConnectionArgs, connectionDefinitions } from 'graphql-relay'
-import { MagnetTypeConnection } from './MagnetType'
+import { MagnetConnection } from './Magnet'
 
 export const User = new GraphQLObjectType({
   name: 'User',
@@ -36,21 +36,22 @@ export const User = new GraphQLObjectType({
         }
       }
     },
-    createdMagnetTypes: {
-      type: MagnetTypeConnection.connectionType,
+
+    createdMagnets: {
+      type: MagnetConnection.connectionType,
       args: forwardConnectionArgs,
       extensions: {
         joinMonster: {
           sqlPaginate: true,
-          orderBy: 'magnet_type_id',
+          orderBy: 'magnet_id',
           sqlJoin: (magnetsTable, usersTable) =>
             `${magnetsTable}.user_id = ${usersTable}.created_by`
         }
       }
     },
 
-    magnets: {
-      type: MagnetConnection.connectionType,
+    userMagnets: {
+      type: UserMagnetConnection.connectionType,
       args: forwardConnectionArgs,
       extensions: {
         joinMonster: {
