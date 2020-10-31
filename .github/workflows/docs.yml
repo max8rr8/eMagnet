@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - docs # For testiong
+      - docs # For testing
 
 jobs:
   
@@ -25,6 +25,9 @@ jobs:
      
       - name: Install dependencies
         run: yarn
+
+      - name: Build JSDOC
+        run: yarn run jsdoc
       
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
