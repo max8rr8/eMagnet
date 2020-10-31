@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { ApolloProvider, gql } from '@apollo/client'
+import { ApolloProvider, gql, ApolloClient } from '@apollo/client'
 import { initOnContext, initApolloClient } from '../apolloClient'
 import NextApp from 'next/app'
 import Head from 'next/head'
@@ -10,6 +10,17 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { getCookie } from '../getCookie'
 import Router from 'next/router'
 
+/**
+ * Компонент на котором основываются страницы
+ *
+ * @param {object} props Component props
+ * @param {React.ReactElement}  props.Component Компонент странички
+ * @param {object} props.pageProps Props страницы
+ * @param {ApolloClient} props.apolloClient Клиент Apollo
+ * @param {object} props.apolloState Состояние apollo
+ * @param {string} props.initialTheme изначальная тема
+ * @returns {React.ReactElement}
+ */
 function App({
   Component,
   pageProps,

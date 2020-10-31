@@ -3,6 +3,13 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 let globalApolloClient = null
 const clientCtx = { req: { headers: {} } }
 
+/**
+ * Функция которая создайт клиент apollo
+ *
+ * @param {object} initialState Изначальное состояние (при гидрации в браузере)
+ * @param {object} ctx Контекст(в бразурер ничего, в ssr можно получить nodejs req и res)
+ * @returns {ApolloClient}
+ */
 export const createApolloClient = (initialState, ctx = clientCtx) =>
   new ApolloClient({
     ssrMode: typeof window === 'undefined',
@@ -14,6 +21,12 @@ export const createApolloClient = (initialState, ctx = clientCtx) =>
     headers: ctx.req.headers
   })
 
+/**
+ * Создаёт apollo на контексте nextjs
+ *
+ * @param {object} ctx Контекст(в бразурер ничего, в ssr можно получить nodejs req и res)
+ * @returns {object}
+ */
 export function initOnContext(ctx) {
   const apolloClient =
     ctx.apolloClient || initApolloClient(ctx.apolloState || {}, ctx.ctx)
@@ -25,6 +38,15 @@ export function initOnContext(ctx) {
   return ctx
 }
 
+/**
+ * Создаёт apollo clietn
+ * - на ssr создаёт каждый раз нового
+ * - в браузере берёт из глобального обьекта
+ *
+ * @param {object} initialState Изначальное состояние (при гидрации в браузере)
+ * @param {object} ctx Контекст(в бразурер ничего, в ssr можно получить nodejs req и res)
+ * @returns {ApolloClient}
+ */
 export function initApolloClient(initialState, ctx) {
   if (typeof window === 'undefined') {
     return createApolloClient(initialState, ctx)

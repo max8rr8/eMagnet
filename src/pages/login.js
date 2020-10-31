@@ -2,6 +2,11 @@ import React from 'react'
 import Link from 'next/link'
 import Button from '@material-ui/core/Button'
 
+/**
+ * Страничка со входом
+ *
+ * @returns {React.ReactElement}
+ */
 function Login() {
   return (
     <div>

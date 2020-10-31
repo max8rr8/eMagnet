@@ -17,6 +17,14 @@ const useStyles = makeStyles((theme) =>
   })
 )
 
+/**
+ * Компонент который отвечает за рендер верхней панели
+ *
+ * @param {object} props Component props
+ * @param {string} props.title Загаловок страницы
+ * @param {Function} props.toggleTheme Переклчить тему
+ * @returns {React.ReactElement}
+ */
 export default function AppBar({ title, toggleTheme }) {
   const styles = useStyles()
 

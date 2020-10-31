@@ -10,6 +10,11 @@ const GET_ME = gql`
   }
 `
 
+/**
+ * Страница с информацией о залогиненом юзере
+ *
+ * @returns {React.ReactElement}
+ */
 function Me() {
   const { data, loading, error } = useQuery(GET_ME)
   if (loading) return <p>Loading</p>

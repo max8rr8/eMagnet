@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { createMuiTheme } from '@material-ui/core/styles'
+import { Theme, createMuiTheme } from '@material-ui/core/styles'
 
 export const themes = {
   light: createMuiTheme({
@@ -14,6 +14,12 @@ export const themes = {
   })
 }
 
+/**
+ * Возвращают тему и позваоляет её переключать
+ *
+ * @param {"dark" | "light"} initialPropsTheme Изначальная тема (при первом рендере страницы)
+ * @returns {Theme}
+ */
 export function useTheme(initialPropsTheme) {
   const [themeName, setThemeNameRaw] = useState(initialPropsTheme)
 
