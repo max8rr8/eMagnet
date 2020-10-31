@@ -1,0 +1,36 @@
+name: Docs
+
+on: 
+  push:
+    branches:
+      - master
+      - docs # For testiong
+
+jobs:
+  
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 12
+      
+      - name: Install global dependencies 
+        run: |
+          sudo apt update
+          sudo npm install -g yarn
+     
+      - name: Install dependencies
+        run: yarn
+      
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs
+          CLEAN: true 
+

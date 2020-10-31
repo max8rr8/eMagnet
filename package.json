@@ -60,7 +60,8 @@
     "build": "next build",
     "dev": "next dev",
     "format": "prettier src --write",
-    "lint": "xo src"
+    "lint": "xo src",
+    "docs": "docsify serve ./docs"
   },
   "xo": {
     "parser": "@babel/eslint-parser",
