@@ -9,7 +9,7 @@ import { forwardConnectionArgs } from 'graphql-relay'
 import { db } from '../db/connection'
 import { User, UserConnection } from './User'
 import { Magnet, MagnetConnection } from './Magnet'
-import { MagnetType, MagnetTypeConnection } from './MagnetType'
+import { UserMagnetConnection, UserMagnet } from './UserMagnet'
 
 export const query = new GraphQLObjectType({
   name: 'Query',
@@ -57,6 +57,37 @@ export const query = new GraphQLObjectType({
         })
     },
 
+    usersMagnets: {
+      type: UserMagnetConnection.connectionType,
+      args: forwardConnectionArgs,
+      extensions: {
+        joinMonster: {
+          sqlPaginate: true,
+          orderBy: 'user_magnet_id'
+        }
+      },
+      resolve: (_, _2, ctx, info) =>
+        joinMonster(info, ctx, (sql) => db.raw(sql), {
+          dialect: 'pg'
+        })
+    },
+    userMagnet: {
+      type: UserMagnet,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLInt) }
+      },
+      extensions: {
+        joinMonster: {
+          where: (usersMagnetsTable, args) =>
+            `${usersMagnetsTable}.magnet_id = ${args.id}`
+        }
+      },
+      resolve: (_, _2, ctx, info) =>
+        joinMonster(info, ctx, (sql) => db.raw(sql), {
+          dialect: 'pg'
+        })
+    },
+
     magnets: {
       type: MagnetConnection.connectionType,
       args: forwardConnectionArgs,
@@ -71,6 +102,7 @@ export const query = new GraphQLObjectType({
           dialect: 'pg'
         })
     },
+
     magnet: {
       type: Magnet,
       args: {
@@ -79,38 +111,6 @@ export const query = new GraphQLObjectType({
       extensions: {
         joinMonster: {
           where: (usersTable, args) => `${usersTable}.magnet_id = ${args.id}`
-        }
-      },
-      resolve: (_, _2, ctx, info) =>
-        joinMonster(info, ctx, (sql) => db.raw(sql), {
-          dialect: 'pg'
-        })
-    },
-
-    magnetTypes: {
-      type: MagnetTypeConnection.connectionType,
-      args: forwardConnectionArgs,
-      extensions: {
-        joinMonster: {
-          sqlPaginate: true,
-          orderBy: 'magnet_type_id'
-        }
-      },
-      resolve: (_, _2, ctx, info) =>
-        joinMonster(info, ctx, (sql) => db.raw(sql), {
-          dialect: 'pg'
-        })
-    },
-
-    magnetType: {
-      type: MagnetType,
-      args: {
-        id: { type: new GraphQLNonNull(GraphQLInt) }
-      },
-      extensions: {
-        joinMonster: {
-          where: (usersTable, args) =>
-            `${usersTable}.magnet_type_id = ${args.id}`
         }
       },
       resolve: (_, _2, ctx, info) =>
