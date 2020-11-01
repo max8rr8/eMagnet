@@ -60,9 +60,10 @@ function App({
 }
 
 App.getInitialProps = async function (ctx) {
-  console.log(ctx)
+  console.log('INITIAL PROPS !!!!!!!!!!!!')
   const { apolloClient } = initOnContext(ctx)
 
+  // Debugger
   if (
     ctx.Component.login === 'requires' ||
     ctx.Component.login === 'restricts'
@@ -73,7 +74,8 @@ App.getInitialProps = async function (ctx) {
           query {
             isLoggedIn
           }
-        `
+        `,
+        fetchPolicy: 'network-only'
       })
     ).data.isLoggedIn
     if (ctx.Component.login === 'requires' && !loggedIn) {
@@ -95,8 +97,6 @@ App.getInitialProps = async function (ctx) {
 
       Router.push('/me')
     }
-
-    console.log(loggedIn)
   }
 
   const pageProps = await NextApp.getInitialProps(ctx)
