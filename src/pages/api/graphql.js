@@ -5,6 +5,12 @@ import { mutation } from '../../graphql/Mutation'
 import { verify } from '../../jwt'
 import { db } from '../../db/connection'
 
+/**
+ * Вытягивает userid из куков
+ *
+ * @param {object} ctx Контекст apollo
+ * @returns {Promise<object>}
+ */
 async function getUserID(ctx) {
   try {
     return await verify(ctx.req.cookies.user)
@@ -13,6 +19,12 @@ async function getUserID(ctx) {
   }
 }
 
+/**
+ * Получаем контекст для apollo
+ *
+ * @param {object} ctx Контекст apollo
+ * @returns {Promise<object>}
+ */
 export async function context(ctx) {
   const token = await getUserID(ctx)
 

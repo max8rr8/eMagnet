@@ -13,6 +13,11 @@ const REGISTER_USER = gql`
   }
 `
 
+/**
+ * Страница с регистрацией
+ *
+ * @returns { React.ReactElement }
+ */
 function Register() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')

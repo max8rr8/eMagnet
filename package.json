@@ -12,10 +12,13 @@
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "apollo-server-micro": "^2.18.2",
+    "eslint-plugin-jsdoc": "^30.7.5",
     "graphql": "15",
     "graphql-config": "^3.0.3",
     "graphql-relay": "^0.6.0",
     "join-monster": "^3.0.0-alpha.2",
+    "jsdoc": "^3.6.6",
+    "jsdoctypeparser": "^9.0.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.6",
     "next": "^9.5.5",
@@ -60,12 +63,15 @@
     "build": "next build",
     "dev": "next dev",
     "format": "prettier src --write",
-    "lint": "xo src"
+    "lint": "xo src --max-warnings=0",
+    "docs": "docsify serve ./docs",
+    "jsdoc": "jsdoc src -d docs/api"
   },
   "xo": {
     "parser": "@babel/eslint-parser",
     "extends": [
-      "xo-react"
+      "xo-react",
+      "plugin:jsdoc/recommended"
     ],
     "space": true,
     "semi": false,
@@ -73,6 +79,9 @@
     "env": [
       "node",
       "browser"
+    ],
+    "plugins": [
+      "jsdoc"
     ],
     "rules": {
       "import/no-unassigned-import": 0,
@@ -104,7 +113,31 @@
             "ObjectID"
           ]
         }
-      ]
+      ],
+      "jsdoc/check-access": "error",
+      "jsdoc/check-alignment": "error",
+      "jsdoc/check-param-names": "error",
+      "jsdoc/check-property-names": "error",
+      "jsdoc/check-tag-names": "error",
+      "jsdoc/check-types": "error",
+      "jsdoc/check-values": "error",
+      "jsdoc/empty-tags": "error",
+      "jsdoc/implements-on-classes": "error",
+      "jsdoc/newline-after-description": "error",
+      "jsdoc/no-undefined-types": "error",
+      "jsdoc/require-jsdoc": "error",
+      "jsdoc/require-param": "error",
+      "jsdoc/require-param-description": "error",
+      "jsdoc/require-param-name": "error",
+      "jsdoc/require-param-type": "error",
+      "jsdoc/require-property": "error",
+      "jsdoc/require-property-description": "error",
+      "jsdoc/require-property-name": "error",
+      "jsdoc/require-property-type": "error",
+      "jsdoc/require-returns": "error",
+      "jsdoc/require-returns-check": "error",
+      "jsdoc/require-returns-type": "error",
+      "jsdoc/require-returns-description": "off"
     },
     "settings": {
       "import/core-modules": [

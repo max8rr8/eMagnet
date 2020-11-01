@@ -13,7 +13,11 @@ const GET_USERS = gql`
     }
   }
 `
-
+/**
+ * Главная страница(пока ничего)
+ *
+ * @returns {React.ReactElement}
+ */
 function Index() {
   const { loading, data } = useQuery(GET_USERS)
   if (loading) return <h1>Loading</h1>
