@@ -5,6 +5,9 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Brightness6Icon from '@material-ui/icons/Brightness6'
 import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
+import Link from 'next/link'
+import { gql, useQuery, useApolloClient } from '@apollo/client'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -17,6 +20,14 @@ const useStyles = makeStyles((theme) =>
   })
 )
 
+const USER_NAME = gql`
+  query {
+    me {
+      nick
+    }
+  }
+`
+
 /**
  * Компонент который отвечает за рендер верхней панели
  *
@@ -27,6 +38,8 @@ const useStyles = makeStyles((theme) =>
  */
 export default function AppBar({ title, toggleTheme }) {
   const styles = useStyles()
+  const client = useApolloClient()
+  const { data, loading } = useQuery(USER_NAME)
 
   return (
     <MUIAppBar position="static">
@@ -45,6 +58,20 @@ export default function AppBar({ title, toggleTheme }) {
         <IconButton color="inherit" onClick={() => toggleTheme()}>
           <Brightness6Icon />
         </IconButton>
+
+        <Link href="/login">
+          <Button
+            color="inherit"
+            onClick={() => {
+              if (data.me) {
+                document.cookie = 'user='
+                client.resetStore()
+              }
+            }}
+          >
+            {loading ? 'Loading' : data.me ? 'Выйти' : 'Войти'}
+          </Button>
+        </Link>
       </Toolbar>
     </MUIAppBar>
   )
