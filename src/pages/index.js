@@ -1,27 +1,34 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
+import MagnetGrid from '../components/MagnetGrid'
 
-const GET_USERS = gql`
+const GET_MAGNETS = gql`
   query {
-    users {
+    magnets {
       edges {
         node {
-          nick
-          email
+          id
+          mainColor
+          secondColor
+          icon
         }
       }
     }
   }
 `
+
 /**
  * Главная страница(пока ничего)
  *
  * @returns {React.ReactElement}
  */
 function Index() {
-  const { loading, data } = useQuery(GET_USERS)
+  const { loading, data } = useQuery(GET_MAGNETS)
+
   if (loading) return <h1>Loading</h1>
-  return <h1>WOW!{JSON.stringify({ data })}</h1>
+  return (
+    <MagnetGrid magnets={data.magnets.edges.map((magnet) => magnet.node)} />
+  )
 }
 
 Index.title = 'Главная'

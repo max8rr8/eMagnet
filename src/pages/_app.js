@@ -51,10 +51,20 @@ function App({
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppBar title={Component.title} toggleTheme={toggleTheme} />
-        <div style={{ margin: 4 }}>
+        <div style={{ margin: 4, flex: 1 }}>
           <Component {...pageProps} />
         </div>
       </ThemeProvider>
+      <style global jsx>{`
+        html,
+        body,
+        body > div:first-child,
+        div#__next {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+      `}</style>
     </ApolloProvider>
   )
 }
