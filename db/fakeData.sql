@@ -34,7 +34,7 @@ INSERT INTO magnets(name, main_color, second_color, icon, author)
 VALUES ('Math master',
         '#0000ff',
         '#ff00ff',
-        'math',
+        'mathworks',
                 (SELECT user_id
                  FROM users
                  WHERE users.email = 'email3@test.com'));

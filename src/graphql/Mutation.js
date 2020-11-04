@@ -1,5 +1,10 @@
-import { GraphQLObjectType, GraphQLNonNull, GraphQLString } from 'graphql'
-import { UserInputError } from 'apollo-server-micro'
+import {
+  GraphQLObjectType,
+  GraphQLInt,
+  GraphQLNonNull,
+  GraphQLString
+} from 'graphql'
+import { UserInputError, AuthenticationError } from 'apollo-server-micro'
 import { hashPassword, validPassword } from '../utils/cryptoPassword'
 import { sign } from '../jwt'
 import { db } from '../db/connection'
@@ -90,6 +95,61 @@ export const mutation = new GraphQLObjectType({
         console.log(token)
 
         return { token }
+      }
+    },
+    createMagnet: {
+      args: {
+        name: {
+          type: new GraphQLNonNull(GraphQLString)
+        },
+        mainColor: {
+          type: new GraphQLNonNull(GraphQLString)
+        },
+        secondColor: {
+          type: new GraphQLNonNull(GraphQLString)
+        },
+        icon: {
+          type: new GraphQLNonNull(GraphQLString)
+        }
+      },
+      type: new GraphQLObjectType({
+        name: 'MagnetCreateResponse',
+        fields: {
+          id: {
+            type: GraphQLInt
+          }
+        }
+      }),
+      resolve: async (_, { name, mainColor, secondColor, icon }, ctx) => {
+        if ((await db.select(1).from('magnets').where({ name })).length > 0)
+          throw new UserInputError('Magnet with this name already exists')
+
+        if (
+          (
+            await db.select(1).from('magnets').where({
+              main_color: mainColor, // eslint-disable-line camelcase
+              second_color: secondColor, // eslint-disable-line camelcase
+              icon
+            })
+          ).length > 0
+        )
+          throw new UserInputError('Magnet with this design already exists')
+
+        if (!ctx.userID) throw new AuthenticationError()
+
+        const ids = await db
+          .insert({
+            name,
+            main_color: mainColor, // eslint-disable-line camelcase
+            second_color: secondColor, // eslint-disable-line camelcase
+            icon,
+            author: ctx.userID
+          })
+          .into('magnets')
+          .returning('magnet_id')
+        return {
+          id: ids[0]
+        }
       }
     }
   }

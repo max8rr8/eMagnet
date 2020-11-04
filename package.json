@@ -11,6 +11,7 @@
     "@babel/plugin-syntax-top-level-await": "^7.12.1",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@rehooks/component-size": "^1.0.3",
     "apollo-server-micro": "^2.18.2",
     "eslint-plugin-jsdoc": "^30.7.5",
     "graphql": "15",
@@ -24,6 +25,7 @@
     "next": "^9.5.5",
     "pg": "^8.4.1",
     "react": "^16.13.1",
+    "react-color": "^2.19.3",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.10.1",
     "react-router-dom": "^5.2.0"
@@ -103,10 +105,6 @@
       ],
       "no-alert": 0,
       "react/prop-types": 0,
-      "max-lines": [
-        2,
-        196
-      ],
       "new-cap": [
         "error",
         {
