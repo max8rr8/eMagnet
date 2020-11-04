@@ -100,12 +100,12 @@ App.getInitialProps = async function (ctx) {
 
     if (ctx.Component.login === 'restricts' && loggedIn) {
       if (ctx.ctx.res) {
-        ctx.ctx.res.writeHead(302, { Location: '/me' })
+        ctx.ctx.res.writeHead(302, { Location: '/user/me' })
         ctx.ctx.res.end('You are logged in already /me')
         return {}
       }
 
-      Router.push('/me')
+      Router.push('/user/me')
     }
   }
 

@@ -1,13 +1,15 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
+import { User, USER_FRAGMENT } from '../../components/User.js'
+import GlobalLoading from '../../components/GlobalLoading.js'
 
 const GET_ME = gql`
   query {
     me {
-      email
-      nick
+      ...UserInfo
     }
   }
+  ${USER_FRAGMENT}
 `
 
 /**
@@ -16,15 +18,13 @@ const GET_ME = gql`
  * @returns {React.ReactElement}
  */
 function Me() {
-  const { data, loading, error } = useQuery(GET_ME)
-  if (loading) return <p>Loading</p>
+  const { data, loading, error } = useQuery(GET_ME, {
+    pollInterval: 1000
+  })
+  if (loading) return <GlobalLoading />
   if (error) return <p>Error</p>
-  return (
-    <div>
-      Имя: {data.me.nick} <br />
-      Почта: {data.me.email}
-    </div>
-  )
+
+  return <User user={data.me} />
 }
 
 Me.title = 'О мне'
