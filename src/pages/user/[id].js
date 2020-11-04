@@ -23,7 +23,7 @@ function UserPage() {
   const { data, loading, error } = useQuery(GET_ME, {
     pollInterval: 1000,
     variables: {
-      id: parseInt(router.query.id)
+      id: Number.parseInt(router.query.id)
     }
   })
 
@@ -34,6 +34,6 @@ function UserPage() {
 }
 
 UserPage.title = 'О пользователе'
-UserPage.login = 'requires'
+UserPage.login = 'ignore'
 
 export default UserPage

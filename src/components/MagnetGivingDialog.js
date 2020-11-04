@@ -13,7 +13,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme) =>
   createStyles({
     dialog: {
-      // padding: 4
+      // Padding: 4
     }
   })
 )
@@ -44,6 +44,11 @@ const GIVE_MAGNET = gql`
   }
 `
 
+/**
+ * @param root0
+ * @param root0.close
+ * @param root0.userId
+ */
 export default function MagnetGivingDialog({ close, userId }) {
   const { data, loading, error } = useQuery(GET_MAGNETS)
   const [inputError, setInputError] = useState('')
@@ -57,39 +62,41 @@ export default function MagnetGivingDialog({ close, userId }) {
   if (givingLoading || loading) return <GlobalLoading />
 
   return (
-    <>
-      <Dialog open PaperProps={{ className: styles.dialog }} onClose={close}>
-        <DialogTitle>Выдача магнита</DialogTitle>
-        <DialogContent>
-          <MagnetGrid
-            onClick={(id) => setSelected(id)}
-            selected={selected}
-            magnets={magnets}
-          />
-          <Typography color="error">{inputError}</Typography>
-        </DialogContent>
+    <Dialog open PaperProps={{ className: styles.dialog }} onClose={close}>
+      <DialogTitle>Выдача магнита</DialogTitle>
+      <DialogContent>
+        <MagnetGrid
+          selected={selected}
+          magnets={magnets}
+          onClick={(id) => setSelected(id)}
+        />
+        <Typography color="error">{inputError}</Typography>
+      </DialogContent>
 
-        <DialogActions>
-          <Button onClick={close}>Отмена</Button>
-          <Button color="primary" onClick={() => {
+      <DialogActions>
+        <Button onClick={close}>Отмена</Button>
+        <Button
+          color="primary"
+          onClick={() => {
             if (selected == -1) {
               return setInputError('Пожалуйста выберете магнит')
-            }else{
-              setInputError('')
             }
+
+            setInputError('')
+
             give({
               variables: {
                 magnetId: selected,
                 userId
               }
-            }).then(()=>{
+            }).then(() => {
               close()
             })
-          }}>
-            Выдать
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+          }}
+        >
+          Выдать
+        </Button>
+      </DialogActions>
+    </Dialog>
   )
 }

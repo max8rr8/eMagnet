@@ -41,6 +41,8 @@ export const USER_FRAGMENT = gql`
 /**
  * Компонентс информацией о юзере
  *
+ * @param root0
+ * @param root0.user
  * @returns {React.ReactElement}
  */
 export function User({ user }) {
@@ -77,4 +79,3 @@ export function User({ user }) {
     </div>
   )
 }
-

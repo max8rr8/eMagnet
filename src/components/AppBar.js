@@ -52,9 +52,11 @@ export default function AppBar({ title, toggleTheme }) {
         >
           <MenuIcon />
         </IconButton> */}
-        <Typography variant="h6" className={styles.title}>
-          {title}
-        </Typography>
+        <Link href="/">
+          <Typography variant="h6" className={styles.title}>
+            {title}
+          </Typography>
+        </Link>
         <IconButton color="inherit" onClick={() => toggleTheme()}>
           <Brightness6Icon />
         </IconButton>

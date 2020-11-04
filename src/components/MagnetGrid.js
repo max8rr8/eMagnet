@@ -23,6 +23,8 @@ function calculateGrid(maxPos) {
  * @param {number} props.i Номер магнита
  * @param {number[]} props.posses Количество магнитов в чётных и нечётных рядах
  * @param {number[]} props.rightMargins свободное место в чётных и не чйтных рядах
+ * @param props.onClick
+ * @param props.selected
  * @returns {React.ReactElement}
  */
 function MagnetGridPart({
@@ -63,6 +65,8 @@ function MagnetGridPart({
  *
  * @param {object} props Component props
  * @param {object[]} props.magnets  магниты
+ * @param props.onClick
+ * @param props.selected
  * @returns {React.ReactElement}
  */
 export default function MagnetGrid({ magnets, onClick, selected }) {
@@ -88,13 +92,13 @@ export default function MagnetGrid({ magnets, onClick, selected }) {
     >
       {magnets.map((magnet, i) => (
         <MagnetGridPart
-          onClick={() => onClick(magnet.id)}
           key={magnet.id}
           magnet={magnet}
           i={i}
           selected={magnet.id == selected}
           rightMargins={rightMargins}
           posses={posses}
+          onClick={() => onClick(magnet.id)}
         />
       ))}
     </div>
