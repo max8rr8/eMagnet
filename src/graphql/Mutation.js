@@ -174,19 +174,19 @@ export const mutation = new GraphQLObjectType({
         const magnets = await db
           .select('author')
           .from('magnets')
-          .where({ magnet_id: magnetId })
+          .where({ magnet_id: magnetId }) // eslint-disable-line camelcase
 
-        if (magnets.length == 0)
+        if (magnets.length === 0)
           throw new UserInputError('This magnet does not exists')
 
         if (
-          (await db.select(1).from('users').where({ user_id: userId }))
-            .length == 0
+          (await db.select(1).from('users').where({ user_id: userId })) // eslint-disable-line camelcase
+            .length === 0
         )
           throw new UserInputError('This user does not exists')
 
         if (!ctx.userID) throw new AuthenticationError()
-        if (magnets[0].author != ctx.userID)
+        if (magnets[0].author !== ctx.userID)
           throw new UserInputError('This magnet does not exists')
 
         const ids = await db

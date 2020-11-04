@@ -1,7 +1,7 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { User, USER_FRAGMENT } from '../../components/User.js'
-import GlobalLoading from '../../components/GlobalLoading.js'
+import { User, USER_FRAGMENT } from '../../components/User'
+import GlobalLoading from '../../components/GlobalLoading'
 import { useRouter } from 'next/router'
 
 const GET_ME = gql`
@@ -23,7 +23,7 @@ function UserPage() {
   const { data, loading, error } = useQuery(GET_ME, {
     pollInterval: 1000,
     variables: {
-      id: Number.parseInt(router.query.id)
+      id: Number.parseInt(router.query.id, 10)
     }
   })
 

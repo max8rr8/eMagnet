@@ -6,17 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { gql, useQuery, useMutation } from '@apollo/client'
-import MagnetGrid from './MagnetGrid.js'
-import GlobalLoading from './GlobalLoading.js'
-import { createStyles, makeStyles } from '@material-ui/core/styles'
-
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    dialog: {
-      // Padding: 4
-    }
-  })
-)
+import MagnetGrid from './MagnetGrid'
+import GlobalLoading from './GlobalLoading'
 
 const GET_MAGNETS = gql`
   query {
@@ -45,24 +36,26 @@ const GIVE_MAGNET = gql`
 `
 
 /**
- * @param root0
- * @param root0.close
- * @param root0.userId
+ * Диалог выдачи магнита
+ *
+ * @param {object} props Component props
+ * @param {Function} props.close Обработчик закрытия диалога
+ * @param {number} props.userId ID юзера которому нужно дать магнит
+ * @returns {React.ReactElement}
  */
 export default function MagnetGivingDialog({ close, userId }) {
-  const { data, loading, error } = useQuery(GET_MAGNETS)
+  const { data, loading } = useQuery(GET_MAGNETS)
   const [inputError, setInputError] = useState('')
-  const [give, { givingLoading, givingError }] = useMutation(GIVE_MAGNET)
-  const styles = useStyles()
+  const [give, { givingLoading }] = useMutation(GIVE_MAGNET)
   const magnets = loading
     ? []
-    : data.me.authoredMagnets.edges.map((e) => e.node)
+    : data.me.authoredMagnets.edges.map((edge) => edge.node)
   const [selected, setSelected] = useState(-1)
 
   if (givingLoading || loading) return <GlobalLoading />
 
   return (
-    <Dialog open PaperProps={{ className: styles.dialog }} onClose={close}>
+    <Dialog open onClose={close}>
       <DialogTitle>Выдача магнита</DialogTitle>
       <DialogContent>
         <MagnetGrid
@@ -78,7 +71,7 @@ export default function MagnetGivingDialog({ close, userId }) {
         <Button
           color="primary"
           onClick={() => {
-            if (selected == -1) {
+            if (selected === -1) {
               return setInputError('Пожалуйста выберете магнит')
             }
 

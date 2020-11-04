@@ -1,10 +1,8 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
-import MagnetGrid from '../components/MagnetGrid'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Button from '@material-ui/core/Button'
@@ -42,12 +40,12 @@ function Index() {
         <TableCell align="right" />
       </TableHead>
       <TableBody>
-        {data.users.edges.map((e) => (
-          <TableRow>
-            <TableCell>{e.node.nick}</TableCell>
-            <TableCell>{e.node.email}</TableCell>
+        {data.users.edges.map((user) => (
+          <TableRow key={user.node.id}>
+            <TableCell>{user.node.nick}</TableCell>
+            <TableCell>{user.node.email}</TableCell>
             <TableCell align="right">
-              <Link href={`/user/${e.node.id}`}>
+              <Link href={`/user/${user.node.id}`}>
                 <Button>Смотреть</Button>
               </Link>
             </TableCell>

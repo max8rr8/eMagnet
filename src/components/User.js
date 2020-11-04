@@ -3,8 +3,8 @@ import { gql } from '@apollo/client'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/AddCircle'
-import MagnetGrid from './MagnetGrid.js'
-import MagnetGivingDialog from './MagnetGivingDialog.js'
+import MagnetGrid from './MagnetGrid'
+import MagnetGivingDialog from './MagnetGivingDialog'
 
 export const USER_FRAGMENT = gql`
   fragment UserInfo on User {
@@ -41,8 +41,8 @@ export const USER_FRAGMENT = gql`
 /**
  * Компонентс информацией о юзере
  *
- * @param root0
- * @param root0.user
+ * @param {object} props Component props
+ * @param {object} props.user Пользователь
  * @returns {React.ReactElement}
  */
 export function User({ user }) {
@@ -59,7 +59,9 @@ export function User({ user }) {
       <Typography component="h1" variant="h5">
         Создал магниты
       </Typography>
-      <MagnetGrid magnets={user.authoredMagnets.edges.map((e) => e.node)} />
+      <MagnetGrid
+        magnets={user.authoredMagnets.edges.map((magnet) => magnet.node)}
+      />
 
       <Typography component="h1" variant="h5">
         Получил магниты
@@ -68,7 +70,9 @@ export function User({ user }) {
         </IconButton>
       </Typography>
       <MagnetGrid
-        magnets={user.userMagnets.edges.map((e) => e.node.magnet).reverse()}
+        magnets={user.userMagnets.edges
+          .map((magnet) => magnet.node.magnet)
+          .reverse()}
       />
       {addingMagnet && (
         <MagnetGivingDialog

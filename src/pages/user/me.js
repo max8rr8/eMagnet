@@ -1,7 +1,7 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { User, USER_FRAGMENT } from '../../components/User.js'
-import GlobalLoading from '../../components/GlobalLoading.js'
+import { User, USER_FRAGMENT } from '../../components/User'
+import GlobalLoading from '../../components/GlobalLoading'
 
 const GET_ME = gql`
   query {
