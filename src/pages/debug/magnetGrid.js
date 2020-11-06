@@ -22,19 +22,26 @@ function Index() {
       'orange',
       'yellow'
     ]
-    let timer = setTimeout(() => {
-      if (magnets.length < 128) {
-        setMagnets([...magnets, {
-          id: magnets.length,
-          mainColor:
-            randomColors[Math.floor(Math.random() * randomColors.length)],
-          secondColor:
-            randomColors[Math.floor(Math.random() * randomColors.length)],
-          icon: icons[Math.floor(Math.random() * icons.length)]
-        }])
-      }
-      return ()=>clearTimeout(timer)
-    }, magnets.length < 32 ? 500 : 250 )
+    const timer = setTimeout(
+      () => {
+        if (magnets.length < 128) {
+          setMagnets([
+            ...magnets,
+            {
+              id: magnets.length,
+              mainColor:
+                randomColors[Math.floor(Math.random() * randomColors.length)],
+              secondColor:
+                randomColors[Math.floor(Math.random() * randomColors.length)],
+              icon: icons[Math.floor(Math.random() * icons.length)]
+            }
+          ])
+        }
+
+        return () => clearTimeout(timer)
+      },
+      magnets.length < 32 ? 500 : 250
+    )
   })
 
   return <MagnetGrid magnets={magnets} />

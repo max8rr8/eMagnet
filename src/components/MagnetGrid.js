@@ -2,12 +2,20 @@ import React, { useRef } from 'react'
 import useComponentSize from '@rehooks/component-size'
 import Magnet from './Magnet'
 
+/**
+ * Считает правильный marginTop для магнита
+ *
+ * @param {number} magnetsInRow Количество магниов в одном ряду(сверху и снизу вместе)
+ * @param {number} i Номер магнита
+ * @returns {number}
+ */
 function calculateTopMargin(magnetsInRow, i) {
   if (i < magnetsInRow) {
-    return i % 2 == 1 ? 40 : 0
+    return i % 2 === 1 ? 40 : 0
   }
-  i = i % magnetsInRow
-  return i % 2 == 1 ? 8 : -32
+
+  i %= magnetsInRow
+  return i % 2 === 1 ? 8 : -32
 }
 
 /**
@@ -16,10 +24,9 @@ function calculateTopMargin(magnetsInRow, i) {
  * @param {object} props Component props
  * @param {object} props.magnet Магнит который надо рендерить
  * @param {number} props.i Номер магнита
- * @param {number[]} props.posses Количество магнитов в чётных и нечётных рядах
- * @param {number[]} props.rightMargins свободное место в чётных и не чйтных рядах
  * @param {Function} props.onClick Обработчик события нажатия
  * @param {boolean} props.selected Выбран ли на данный момент магнит
+ * @param {number} props.magnetsInRow Количество магнитов в ряду
  * @returns {React.ReactElement}
  */
 function MagnetGridPart({ magnet, i, magnetsInRow, onClick, selected }) {
