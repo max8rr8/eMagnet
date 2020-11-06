@@ -2,17 +2,12 @@ import React, { useRef } from 'react'
 import useComponentSize from '@rehooks/component-size'
 import Magnet from './Magnet'
 
-/**
- * Считает количество магнитов в чётных и нечётных рядах
- *
- * @param {number} maxPos ширина сектки магнитов
- * @returns {number[]}
- */
-function calculateGrid(maxPos) {
-  const firstRowNumber = Math.floor((maxPos + 64) / (115 + 64))
-  const secondRowNumber = Math.floor((maxPos + 64 - 90) / (115 + 64))
-
-  return [firstRowNumber, firstRowNumber + secondRowNumber]
+function calculateTopMargin(magnetsInRow, i) {
+  if (i < magnetsInRow) {
+    return i % 2 == 1 ? 40 : 0
+  }
+  i = i % magnetsInRow
+  return i % 2 == 1 ? 8 : -32
 }
 
 /**
@@ -27,28 +22,12 @@ function calculateGrid(maxPos) {
  * @param {boolean} props.selected Выбран ли на данный момент магнит
  * @returns {React.ReactElement}
  */
-function MagnetGridPart({
-  magnet,
-  i,
-  posses,
-  rightMargins,
-  onClick,
-  selected
-}) {
-  let margin = 64
-  if (i % posses[1] === 0) margin = 0
-  if (i % posses[1] === posses[0]) margin = 90
-
-  let marginRight = 0
-  if (i % posses[1] === posses[0] - 1) marginRight = rightMargins[0]
-  if (i % posses[1] === posses[1] - 1) marginRight = rightMargins[1]
-
+function MagnetGridPart({ magnet, i, magnetsInRow, onClick, selected }) {
   return (
     <div
       style={{
-        marginLeft: margin,
-        marginTop: -38,
-        marginRight,
+        marginLeft: -24,
+        marginTop: calculateTopMargin(magnetsInRow, i),
         transformOrigin: 'center',
         transform: selected ? 'scale(1.05)' : '',
         zIndex: selected ? 0 : 1
@@ -72,12 +51,8 @@ function MagnetGridPart({
 export default function MagnetGrid({ magnets, onClick, selected }) {
   const rootRef = useRef()
   const size = useComponentSize(rootRef)
-  const posses = calculateGrid(size.width)
-  const rightMargins = [
-    Math.max(size.width - 5 + 64 - posses[0] * (115 + 64), 0),
-    Math.max(size.width - 95 + 64 - (posses[1] - posses[0]) * (115 + 64), 0)
-  ]
-  console.log(posses)
+  const magnetsInRow = Math.floor((size.width - 24) / (115 - 24))
+
   onClick = onClick ? onClick : () => {}
 
   return (
@@ -86,7 +61,7 @@ export default function MagnetGrid({ magnets, onClick, selected }) {
       style={{
         display: 'flex',
         flexWrap: 'wrap',
-        paddingTop: 38,
+        paddingLeft: 24,
         minWidth: 250
       }}
     >
@@ -96,8 +71,7 @@ export default function MagnetGrid({ magnets, onClick, selected }) {
           magnet={magnet}
           i={i}
           selected={magnet.id === selected}
-          rightMargins={rightMargins}
-          posses={posses}
+          magnetsInRow={magnetsInRow}
           onClick={() => onClick(magnet.id)}
         />
       ))}
