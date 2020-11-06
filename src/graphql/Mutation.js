@@ -151,6 +151,56 @@ export const mutation = new GraphQLObjectType({
           id: ids[0]
         }
       }
+    },
+    giveMagnet: {
+      args: {
+        magnetId: {
+          type: new GraphQLNonNull(GraphQLInt)
+        },
+        userId: {
+          type: new GraphQLNonNull(GraphQLInt)
+        }
+      },
+      type: new GraphQLObjectType({
+        name: 'MagnetGiveResponse',
+        fields: {
+          id: {
+            type: new GraphQLNonNull(GraphQLInt)
+          }
+        }
+      }),
+      resolve: async (_, { magnetId, userId }, ctx) => {
+        console.log(magnetId)
+        const magnets = await db
+          .select('author')
+          .from('magnets')
+          .where({ magnet_id: magnetId }) // eslint-disable-line camelcase
+
+        if (magnets.length === 0)
+          throw new UserInputError('This magnet does not exists')
+
+        if (
+          (await db.select(1).from('users').where({ user_id: userId })) // eslint-disable-line camelcase
+            .length === 0
+        )
+          throw new UserInputError('This user does not exists')
+
+        if (!ctx.userID) throw new AuthenticationError()
+        if (magnets[0].author !== ctx.userID)
+          throw new UserInputError('This magnet does not exists')
+
+        const ids = await db
+          .insert({
+            user_id: userId, // eslint-disable-line camelcase
+            magnet_id: magnetId // eslint-disable-line camelcase
+          })
+          .into('users_magnets')
+          .returning('user_magnet_id')
+
+        return {
+          id: ids[0]
+        }
+      }
     }
   }
 })

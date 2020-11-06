@@ -3,16 +3,19 @@ import useComponentSize from '@rehooks/component-size'
 import Magnet from './Magnet'
 
 /**
- * Считает количество магнитов в чётных и нечётных рядах
+ * Считает правильный marginTop для магнита
  *
- * @param {number} maxPos ширина сектки магнитов
- * @returns {number[]}
+ * @param {number} magnetsInRow Количество магниов в одном ряду(сверху и снизу вместе)
+ * @param {number} i Номер магнита
+ * @returns {number}
  */
-function calculateGrid(maxPos) {
-  const firstRowNumber = Math.floor((maxPos + 64) / (115 + 64))
-  const secondRowNumber = Math.floor((maxPos + 64 - 90) / (115 + 64))
+function calculateTopMargin(magnetsInRow, i) {
+  if (i < magnetsInRow) {
+    return i % 2 === 1 ? 40 : 0
+  }
 
-  return [firstRowNumber, firstRowNumber + secondRowNumber]
+  i %= magnetsInRow
+  return i % 2 === 1 ? 8 : -32
 }
 
 /**
@@ -21,21 +24,23 @@ function calculateGrid(maxPos) {
  * @param {object} props Component props
  * @param {object} props.magnet Магнит который надо рендерить
  * @param {number} props.i Номер магнита
- * @param {number[]} props.posses Количество магнитов в чётных и нечётных рядах
- * @param {number[]} props.rightMargins свободное место в чётных и не чйтных рядах
+ * @param {Function} props.onClick Обработчик события нажатия
+ * @param {boolean} props.selected Выбран ли на данный момент магнит
+ * @param {number} props.magnetsInRow Количество магнитов в ряду
  * @returns {React.ReactElement}
  */
-function MagnetGridPart({ magnet, i, posses, rightMargins }) {
-  let margin = 64
-  if (i % posses[1] === 0) margin = 0
-  if (i % posses[1] === posses[0]) margin = 90
-
-  let marginRight = 0
-  if (i % posses[1] === posses[0] - 1) marginRight = rightMargins[0]
-  if (i % posses[1] === posses[1] - 1) marginRight = rightMargins[1]
-
+function MagnetGridPart({ magnet, i, magnetsInRow, onClick, selected }) {
   return (
-    <div style={{ marginLeft: margin, marginTop: -38, marginRight }}>
+    <div
+      style={{
+        marginLeft: -24,
+        marginTop: calculateTopMargin(magnetsInRow, i),
+        transformOrigin: 'center',
+        transform: selected ? 'scale(1.05)' : '',
+        zIndex: selected ? 0 : 1
+      }}
+      onClick={onClick}
+    >
       <Magnet {...magnet} />
     </div>
   )
@@ -46,17 +51,16 @@ function MagnetGridPart({ magnet, i, posses, rightMargins }) {
  *
  * @param {object} props Component props
  * @param {object[]} props.magnets  магниты
+ * @param {Function} props.onClick Обработчик события нажатия на магнит
+ * @param {number} props.selected ID выбраного магнита
  * @returns {React.ReactElement}
  */
-export default function MagnetGrid({ magnets }) {
+export default function MagnetGrid({ magnets, onClick, selected }) {
   const rootRef = useRef()
   const size = useComponentSize(rootRef)
-  const posses = calculateGrid(size.width)
-  const rightMargins = [
-    Math.max(size.width - 5 + 64 - posses[0] * (115 + 64), 0),
-    Math.max(size.width - 95 + 64 - (posses[1] - posses[0]) * (115 + 64), 0)
-  ]
-  console.log(posses)
+  const magnetsInRow = Math.floor((size.width - 24) / (115 - 24))
+
+  onClick = onClick ? onClick : () => {}
 
   return (
     <div
@@ -64,7 +68,7 @@ export default function MagnetGrid({ magnets }) {
       style={{
         display: 'flex',
         flexWrap: 'wrap',
-        paddingTop: 38,
+        paddingLeft: 24,
         minWidth: 250
       }}
     >
@@ -73,8 +77,9 @@ export default function MagnetGrid({ magnets }) {
           key={magnet.id}
           magnet={magnet}
           i={i}
-          rightMargins={rightMargins}
-          posses={posses}
+          selected={magnet.id === selected}
+          magnetsInRow={magnetsInRow}
+          onClick={() => onClick(magnet.id)}
         />
       ))}
     </div>

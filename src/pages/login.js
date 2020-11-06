@@ -103,7 +103,7 @@ function Login() {
                   if (!response.errors) {
                     document.cookie = 'user=' + response.data.login.token
                     client.resetStore()
-                    Router.push('/me')
+                    Router.push('/user/me')
                   }
                 })
               )}

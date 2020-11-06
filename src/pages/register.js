@@ -125,7 +125,7 @@ function Register() {
                   if (!response.errors) {
                     document.cookie = 'user=' + response.data.register.token
                     client.resetStore()
-                    Router.push('/me')
+                    Router.push('/user/me')
                   }
                 })
               )}
